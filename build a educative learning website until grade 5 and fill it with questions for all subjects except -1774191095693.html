@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLearn - Learning Platform for Grades 1-5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFD700',
+                        secondary: '#FFA500',
+                        accent: '#4CAF50',
+                        dark: '#333333'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF9C4;
+            background-image: radial-gradient(#FFD700 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .subject-card {
+            transition: all 0.3s ease;
+        }
+        .subject-card:hover {
+            transform: scale(1.05);
+        }
+        .grade-btn {
+            transition: all 0.2s ease;
+        }
+        .grade-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .question-container {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .teaching-step {
+            animation: slideIn 0.5s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .interactive-btn {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .interactive-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .active {
+            border-color: #FFD700 !important;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-yellow-400 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-graduation-cap text-3xl text-blue-800"></i>
+                <h1 class="text-2xl md:text-3xl font-bold text-blue-900">EduLearn</h1>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <button onclick="showPage('home-page')" class="font-semibold text-blue-900 hover:text-blue-700 interactive-btn">Home</button>
+                <button onclick="showPage('subjects')" class="font-semibold text-blue-900 hover:text-blue-700 interactive-btn">Subjects</button>
+            </nav>
+            <div class="md:hidden">
+                <button class="text-blue-900 interactive-btn"><i class="fas fa-bars text-xl"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Home Page -->
+        <section id="home-page" class="page-content">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-blue-900 mb-4">Welcome to EduLearn!</h2>
+                <p class="text-lg md:text-xl text-blue-700 max-w-3xl mx-auto">
+                    Interactive learning platform designed specifically for young learners from Playgroup to Grade 5
+                </p>
+            </div>
+
+            <!-- Grade Selection -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold text-center text-blue-900 mb-8">Select Your Grade Level</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <!-- Playgroup -->
+                    <button onclick="selectGrade('Playgroup')" class="grade-btn bg-white rounded-xl p-6 shadow-lg border-2 border-yellow-300 flex flex-col items-center justify-center interactive-btn">
+                        <i class="fas fa-child text-5xl text-yellow-500 mb-3"></i>
+                        <h4 class="text-xl font-bold text-blue-900">Playgroup</h4>
+                        <p class="text-gray-600 mt-2">Early Learning</p>
+                    </button>
+                    
+                    <!-- Grade 1 -->
+                    <button onclick="selectGrade('Grade 1')" class="grade-btn bg-white rounded-xl p-6 shadow-lg border-2 border-yellow-300 flex flex-col items-center justify-center interactive-btn">
+                        <i class="fas fa-1 text-5xl text-blue-500 mb-3"></i>
+                        <h4 class="text-xl font-bold text-blue-900">Grade 1</h4>
+                        <p class="text-gray-600 mt-2">First Year Basics</p>
+                    </button>
+                    
+                    <!-- Grade 2 -->
+                    <button onclick="selectGrade('Grade 2')" class="grade-btn bg-white rounded-xl p-6 shadow-lg border-2 border-yellow-300 flex flex-col items-center justify-center interactive-btn">
+                        <i class="fas fa-2 text-5xl text-green-500 mb-3"></i>
+                        <h4 class="text-xl font-bold text-blue-900">Grade 2</h4>
+                        <p class="text-gray-600 mt-2">Building Skills</p>
+                    </button>
+                    
+                    <!-- Grade 3 -->
+                    <button onclick="selectGrade('Grade 3')" class="grade-btn bg-white rounded-xl p-6 shadow-lg border-2 border-yellow-300 flex flex-col items-center justify-center interactive-btn">
+                        <i class="fas fa-3 text-5xl text-purple-500 mb-3"></i>
+                        <h4 class="text-xl font-bold text-blue-900">Grade 3</h4>
+                        <p class="text-gray-600 mt-2">Growing Knowledge</p>
+                    </button>
+                    
+                    <!-- Grade 4 -->
+                    <button onclick="selectGrade('Grade 4')" class="grade-btn bg-white rounded-xl p-6 shadow-lg border-2 border-yellow-300 flex flex-col items-center justify-center interactive-btn">
+                        <i class="fas fa-4 text-5xl text-red-500 mb-3"></i>
+                        <h4 class="text-xl font-bold text-blue-900">Grade 4</h4>
+                        <p class="text-gray-600 mt-2">Advanced Concepts</p>
+                    </button>
+                    
+                    <!-- Grade 5 -->
+                    <button onclick="selectGrade('Grade 5')" class="grade-btn bg-white rounded-xl p-6 shadow-lg border-2 border-yellow-300 flex flex-col items-center justify-center interactive-btn">
+                        <i class="fas fa-5 text-5xl text-indigo-500 mb-3"></i>
+                        <h4 class="text-xl font-bold text-blue-900">Grade 5</h4>
+                        <p class="text-gray-600 mt-2">Final Year Prep</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Teaching Process Section -->
+            <div class="mt-16 bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h3 class="text-2xl font-bold text-center text-blue-900 mb-8">Our Teaching Process</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="teaching-step bg-blue-50 rounded-lg p-6 border-l-4 border-blue-500">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-lightbulb text-blue-600 text-xl"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-blue-900">Discovery</h4>
+                        </div>
+                        <p class="text-gray-600">Children explore new concepts through interactive games and activities designed to spark curiosity and engagement.</p>
+                    </div>
+                    <div class="teaching-step bg-green-50 rounded-lg p-6 border-l-4 border-green-500">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-book-open text-green-600 text-xl"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-blue-900">Understanding</h4>
+                        </div>
+                        <p class="text-gray-600">Students learn fundamental skills through structured lessons and hands-on experiences that build knowledge progressively.</p>
+                    </div>
+                    <div class="teaching-step bg-purple-50 rounded-lg p-6 border-l-4 border-purple-500">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-check-circle text-purple-600 text-xl"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-blue-900">Application</h4>
+                        </div>
+                        <p class="text-gray-600">Knowledge is reinforced through practical exercises and real-world applications that promote mastery and retention.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subjects Page -->
+        <section id="subjects-page" class="page-content hidden">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-4">Learning Subjects</h2>
+                <p class="text-lg text-blue-700 max-w-2xl mx-auto">
+                    Explore various subjects tailored to your grade level
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12" id="subjects-grid">
+                <!-- Subjects will be populated by JavaScript -->
+            </div>
+
+            <div class="text-center">
+                <button onclick="showPage('home-page')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 interactive-btn">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Home
+                </button>
+            </div>
+        </section>
+
+        <!-- Subject Detail Page -->
+        <section id="subject-detail-page" class="page-content hidden">
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-blue-900" id="subject-name">Subject Name</h2>
+                    <button onclick="showPage('subjects')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-full interactive-btn">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Subjects
+                    </button>
+                </div>
+
+                <div id="subject-content" class="mb-8">
+                    <!-- Subject content will be loaded here -->
+                </div>
+
+                <div class="text-center">
+                    <button onclick="startTeaching()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 interactive-btn mr-4">
+                        <i class="fas fa-graduation-cap mr-2"></i> Start Teaching
+                    </button>
+                    <button onclick="startExercise()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 interactive-btn">
+                        <i class="fas fa-puzzle-piece mr-2"></i> Practice Exercises
+                    </button>
+                    <button onclick="startQuiz()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 interactive-btn mt-4">
+                        <i class="fas fa-clipboard-list mr-2"></i> Take Quiz
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Teaching Page -->
+        <section id="teaching-page" class="page-content hidden">
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-blue-900" id="teaching-subject">Teaching Content</h2>
+                    <button onclick="showPage('subject-detail')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-full interactive-btn">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Subject
+                    </button>
+                </div>
+
+                <div id="teaching-content" class="mb-8">
+                    <!-- Teaching content will be loaded here -->
+                </div>
+
+                <div class="flex justify-between mt-8">
+                    <button onclick="showTeachingStep('prev')" id="prev-teach-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg disabled:opacity-50 interactive-btn">
+                        Previous Step
+                    </button>
+                    <button onclick="showTeachingStep('next')" id="next-teach-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg interactive-btn">
+                        Next Step
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercise Page -->
+        <section id="exercise-page" class="page-content hidden">
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-blue-900" id="exercise-subject">Exercise Questions</h2>
+                    <button onclick="showPage('subject-detail')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-full interactive-btn">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Subject
+                    </button>
+                </div>
+
+                <div id="exercise-container" class="question-container">
+                    <!-- Exercises will be loaded here -->
+                </div>
+
+                <div class="flex justify-between mt-8">
+                    <button onclick="previousExercise()" id="prev-exercise-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg disabled:opacity-50 interactive-btn">
+                        Previous
+                    </button>
+                    <button onclick="nextExercise()" id="next-exercise-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg interactive-btn">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Page -->
+        <section id="quiz-page" class="page-content hidden">
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-blue-900" id="current-subject">Mathematics</h2>
+                    <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full font-medium" id="question-counter">Question 1 of 10</span>
+                </div>
+
+                <div id="question-container" class="question-container">
+                    <!-- Questions will be loaded here -->
+                </div>
+
+                <div class="flex justify-between mt-8">
+                    <button onclick="previousQuestion()" id="prev-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg disabled:opacity-50 interactive-btn">
+                        Previous
+                    </button>
+                    <button onclick="nextQuestion()" id="next-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg interactive-btn">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white mt-16 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center mb-4">
+                <i class="fas fa-graduation-cap text-3xl mr-3"></i>
+                <h3 class="text-2xl font-bold">EduLearn</h3>
+            </div>
+            <p class="mb-4">Making learning fun and accessible for young minds</p>
+            <p class="text-blue-200">© 2023 EduLearn. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Updated quiz questions data for Kenya Grade 5 syllabus
+        const quizData = {
+            'Math': [
+                {
+                    question: "What is 24 ÷ 4?",
+                    options: ["4", "5", "6", "7"],
+                    correct: 2
+                },
+                {
+                    question: "Solve: 3x + 5 = 20, what is x?",
+                    options: ["5", "6", "7", "8"],
+                    correct: 0
+                },
+                {
+                    question: "Which is equivalent to 3/4?",
+                    options: ["0.25", "0.5", "0.75", "0.8"],
+                    correct: 2
+                },
+                {
+                    question: "Calculate the area of a rectangle with length 8cm and width 5cm.",
+                    options: ["13 cm²", "40 cm²", "26 cm²", "30 cm²"],
+                    correct: 1
+                },
+                {
+                    question: "If a triangle has base 6cm and height 4cm, what is its area?",
+                    options: ["12 cm²", "24 cm²", "10 cm²", "8 cm²"],
+                    correct: 0
+                },
+                {
+                    question: "What is the square root of 64?",
+                    options: ["6", "7", "8", "9"],
+                    correct: 2
+                },
+                {
+                    question: "Convert 3/5 to decimal form.",
+                    options: ["0.3", "0.5", "0.6", "0.8"],
+                    correct: 2
+                },
+                {
+                    question: "Find the perimeter of a square with side 7cm.",
+                    options: ["14cm", "21cm", "28cm", "49cm"],
+                    correct: 2
+                },
+                {
+                    question: "What is 3.5 × 2?",
+                    options: ["5.5", "6.0", "6.5", "7.0"],
+                    correct: 3
+                },
+                {
+                    question: "If 1/4 of a number is 15, what is the full number?",
+                    options: ["30", "45", "60", "75"],
+                    correct: 2
+                }
+            ],
+            'English': [
+                {
+                    question: "What is the plural of 'cat'?",
+                    options: ["cats", "caties", "cates", "cati"],
+                    correct: 0
+                },
+                {
+                    question: "Which word is a noun?",
+                    options: ["run", "beautiful", "book", "quickly"],
+                    correct: 2
+                },
+                {
+                    question: "Complete the sentence: I ___ to school every day.",
+                    options: ["go", "goes", "going", "went"],
+                    correct: 0
+                },
+                {
+                    question: "What does 'happy' mean?",
+                    options: ["sad", "excited", "joyful", "angry"],
+                    correct: 2
+                },
+                {
+                    question: "Which is a proper noun?",
+                    options: ["dog", "London", "house", "car"],
+                    correct: 1
+                },
+                {
+                    question: "What is the past tense of 'go'?",
+                    options: ["go", "goes", "going", "went"],
+                    correct: 3
+                },
+                {
+                    question: "Choose the correct spelling: 'beautiful' or 'beautifull'?",
+                    options: ["beautiful", "beautifull"],
+                    correct: 0
+                },
+                {
+                    question: "Which sentence is correct?",
+                    options: ["She don't like apples.", "She doesn't likes apples.", "She doesn't like apples.", "She don't likes apples."],
+                    correct: 2
+                },
+                {
+                    question: "What is a synonym for 'big'?",
+                    options: ["Small", "Large", "Tiny", "Little"],
+                    correct: 1
+                },
+                {
+                    question: "Which word is an adjective?",
+                    options: ["Jump", "Beautiful", "Running", "Eats"],
+                    correct: 1
+                }
+            ],
+            'Environmental Science': [
+                {
+                    question: "What do plants need to grow?",
+                    options: ["Sunlight, water, and soil", "Water only", "Air only", "Light only"],
+                    correct: 0
+                },
+                {
+                    question: "Which animal is a mammal?",
+                    options: ["Fish", "Bird", "Dog", "Snake"],
+                    correct: 2
+                },
+                {
+                    question: "What is the main source of energy for Earth?",
+                    options: ["Wind", "Sun", "Water", "Coal"],
+                    correct: 1
+                },
+                {
+                    question: "How many seasons are there in Kenya?",
+                    options: ["1", "2", "3", "4"],
+                    correct: 1
+                },
+                {
+                    question: "What is recycling?",
+                    options: ["Throwing waste away", "Burning waste", "Converting waste into new products", "Buying new things"],
+                    correct: 2
+                },
+                {
+                    question: "Which is a renewable resource?",
+                    options: ["Coal", "Oil", "Solar energy", "Natural gas"],
+                    correct: 2
+                },
+                {
+                    question: "What causes air pollution?",
+                    options: ["Trees", "Cars and factories", "Animals", "Ocean waves"],
+                    correct: 1
+                },
+                {
+                    question: "What does 'conservation' mean?",
+                    options: ["Wasting resources", "Using more resources", "Protecting and preserving natural resources", "Destroying habitats"],
+                    correct: 2
+                },
+                {
+                    question: "Which is a natural habitat?",
+                    options: ["City park", "Forest", "Shopping mall", "Office building"],
+                    correct: 1
+                },
+                {
+                    question: "What role do bees play in ecosystems?",
+                    options: ["Pollinate flowers", "Eat plants", "Store honey", "Build nests"],
+                    correct: 0
+                }
+            ],
+            'Art': [
+                {
+                    question: "What color do you get when you mix red and blue?",
+                    options: ["Yellow", "Green", "Purple", "Orange"],
+                    correct: 2
+                },
+                {
+                    question: "What tool do we use to draw straight lines?",
+                    options: ["Eraser", "Ruler", "Brush", "Pencil"],
+                    correct: 1
+                },
+                {
+                    question: "Which is a primary color?",
+                    options: ["Green", "Blue", "Orange", "Purple"],
+                    correct: 1
+                },
+                {
+                    question: "What is a canvas used for?",
+                    options: ["Painting", "Writing", "Cutting", "Measuring"],
+                    correct: 0
+                },
+                {
+                    question: "What is the name of the art of drawing with pencils?",
+                    options: ["Watercolor", "Sketching", "Sculpture", "Printmaking"],
+                    correct: 1
+                },
+                {
+                    question: "What is the technique called where you blend colors smoothly?",
+                    options: ["Hatching", "Cross-hatching", "Blending", "Stippling"],
+                    correct: 2
+                },
+                {
+                    question: "What type of paper is best for watercolor painting?",
+                    options: ["Normal copy paper", "Watercolor paper", "Cardboard", "Newsprint"],
+                    correct: 1
+                },
+                {
+                    question: "Which of these is a drawing tool?",
+                    options: ["Palette", "Brush", "Eraser", "Canvas"],
+                    correct: 2
+                },
+                {
+                    question: "What is the term for adding texture to a drawing?",
+                    options: ["Shading", "Contouring", "Hatching", "Texturing"],
+                    correct: 3
+                },
+                {
+                    question: "Which artist is known for his unique style of painting stars?",
+                    options: ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Michelangelo"],
+                    correct: 0
+                }
+            ],
+            'Social Studies': [
+                {
+                    question: "Who is the President of Kenya?",
+                    options: ["Jomo Kenyatta", "Daniel arap Moi", "Mwai Kibaki", "Uhuru Kenyatta"],
+                    correct: 3
+                },
+                {
+                    question: "What is the capital city of Kenya?",
+                    options: ["Nairobi", "Mombasa", "Kisumu", "Eldoret"],
+                    correct: 0
+                },
+                {
+                    question: "Which of these is NOT a Kenyan tribe?",
+                    options: ["Luo", "Kikuyu", "Maasai", "French"],
+                    correct: 3
+                },
+                {
+                    question: "How many counties are there in Kenya?",
+                    options: ["47", "42", "50", "45"],
+                    correct: 0
+                },
+                {
+                    question: "Which of these is a national symbol of Kenya?",
+                    options: ["Lion", "Giraffe", "Baobab tree", "Hippopotamus"],
+                    correct: 2
+                },
+                {
+                    question: "Who was the first Prime Minister of Kenya?",
+                    options: ["Jomo Kenyatta", "Daniel arap Moi", "Mwai Kibaki", "Raila Odinga"],
+                    correct: 0
+                },
+                {
+                    question: "Which is the largest lake in Kenya?",
+                    options: ["Lake Victoria", "Lake Turkana", "Lake Naivasha", "Lake Baringo"],
+                    correct: 0
+                },
+                {
+                    question: "What is the official language of Kenya?",
+                    options: ["Swahili only", "English only", "Swahili and English", "French"],
+                    correct: 2
+                },
+                {
+                    question: "Which of these is a major industry in Kenya?",
+                    options: ["Mining", "Agriculture", "Manufacturing", "All of the above"],
+                    correct: 3
+                },
+                {
+                    question: "What is the name of Kenya's national anthem?",
+                    options: ["Ee Mungu Nacium", "Bandari Ya Kenya", "Mungu Nacium", "Nkosi Sikelel' iAfrika"],
+                    correct: 0
+                }
+            ],
+            'Agriculture': [
+                {
+                    question: "What is the main purpose of farming?",
+                    options: ["To grow food", "To make money", "To sell plants", "All of the above"],
+                    correct: 0
+                },
+                {
+                    question: "Which of these is a vegetable?",
+                    options: ["Apple", "Carrot", "Banana", "Orange"],
+                    correct: 1
+                },
+                {
+                    question: "What do plants need to grow?",
+                    options: ["Sunlight, water, and soil", "Only water", "Only sunlight", "Only soil"],
+                    correct: 0
+                },
+                {
+                    question: "Which tools are used to farm?",
+                    options: ["Shovel, hoe, and watering can", "Pencil, paper, and eraser", "Brush, scissors, and glue", "None of the above"],
+                    correct: 0
+                },
+                {
+                    question: "Why is it important to plant trees?",
+                    options: ["They provide shade", "They produce oxygen", "They prevent soil erosion", "All of the above"],
+                    correct: 3
+                },
+                {
+                    question: "What is crop rotation?",
+                    options: ["Growing the same crop in the same field", "Switching crops to maintain soil health", "Planting crops in rows", "Growing crops in greenhouses"],
+                    correct: 1
+                },
+                {
+                    question: "What is composting?",
+                    options: ["Burning organic waste", "Turning organic waste into fertilizer", "Dumping waste in the sea", "Using chemical fertilizers"],
+                    correct: 1
+                },
+                {
+                    question: "Which is a seasonal crop in Kenya?",
+                    options: ["Wheat", "Coffee", "Tomatoes", "Rice"],
+                    correct: 1
+                },
+                {
+                    question: "What is irrigation?",
+                    options: ["Using natural rainfall", "Watering plants artificially", "Using pesticides", "Growing plants in water"],
+                    correct: 1
+                },
+                {
+                    question: "What is sustainable farming?",
+                    options: ["Using chemical fertilizers only", "Growing crops without harming the environment", "Harvesting crops quickly", "Using machines for everything"],
+                    correct: 1
+                }
+            ]
+        };
+
+        // Updated subject list by grade
+        const subjectsByGrade = {
+            'Playgroup': ['Math', 'English', 'Environmental Science', 'Art', 'Social Studies', 'Agriculture'],
+            'Grade 1': ['Math', 'English', 'Environmental Science', 'Art', 'Social Studies', 'Agriculture'],
+            'Grade 2': ['Math', 'English', 'Environmental Science', 'Art', 'Social Studies', 'Agriculture'],
+            'Grade 3': ['Math', 'English', 'Environmental Science', 'Art', 'Social Studies', 'Agriculture'],
+            'Grade 4': ['Math', 'English', 'Agriculture', 'Art', 'Social Studies', 'Environmental Science'],
+            'Grade 5': ['Math', 'English', 'Agriculture', 'Art', 'Social Studies', 'Environmental Science']
+        };
+
+        // Teaching steps for each subject
+        const teachingSteps = {
+            'Math': [
+                {
+                    title: "Introduction to Numbers",
+                    content: "Numbers are symbols we use to count things. Here are some numbers: 1, 2, 3, 4, 5. Count objects around you using these numbers."
+                },
+                {
+                    title: "Addition",
+                    content: "Addition means putting things together. Example: 2 apples + 3 apples = 5 apples. When we add numbers, we find the total amount."
+                },
+                {
+                    title: "Subtraction",
+                    content: "Subtraction means taking things away. Example: 5 apples - 2 apples = 3 apples. When we subtract, we find how many are left."
+                },
+                {
+                    title: "Multiplication",
+                    content: "Multiplication is repeated addition. Example: 3 × 4 means 3 groups of 4, which equals 12."
+                },
+                {
+                    title: "Division",
+                    content: "Division splits things into equal parts. Example: 12 ÷ 3 = 4, meaning 12 split into 3 equal parts gives 4 each."
+                }
+            ],
+            'English': [
+                {
+                    title: "Letters of the Alphabet",
+                    content: "The alphabet has 26 letters. Practice writing each letter! A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z"
+                },
+                {
+                    title: "Simple Sentences",
+                    content: "A sentence has a subject and a verb. Example: 'The cat sleeps.' Here 'cat' is the subject and 'sleeps' is the verb."
+                },
+                {
+                    title: "Reading Comprehension",
+                    content: "When you read, try to understand what happens in the story. Ask yourself: Who? What? Where? When? Why?"
+                },
+                {
+                    title: "Verbs and Tenses",
+                    content: "Verbs show actions or states. Past tense: 'I walked.' Present tense: 'I walk.' Future tense: 'I will walk.'"
+                },
+                {
+                    title: "Grammar Basics",
+                    content: "Grammar helps us write correctly. Check for capital letters, punctuation, and proper word order."
+                }
+            ],
+            'Environmental Science': [
+                {
+                    title: "Our Living Environment",
+                    content: "Everything around us makes up our environment. Plants, animals, weather, and water are all part of it."
+                },
+                {
+                    title: "Plants and Animals",
+                    content: "Plants give us food and oxygen. Animals live in different places and have special needs to survive."
+                },
+                {
+                    title: "Protecting Nature",
+                    content: "We can help protect nature by planting trees, not throwing trash everywhere, watering plants, and being kind to animals."
+                },
+                {
+                    title: "Weather Patterns",
+                    content: "Weather changes daily. We have rainy season, dry season, and different temperatures throughout the year."
+                },
+                {
+                    title: "Conservation Efforts",
+                    content: "Protecting our environment means saving animals, forests, and clean water. Everyone has a role to play."
+                }
+            ],
+            'Art': [
+                {
+                    title: "Colors and Shapes",
+                    content: "Colors make things look beautiful. Primary colors are red, blue, and yellow. Shapes like circles, squares, and triangles are everywhere!"
+                },
+                {
+                    title: "Drawing Tips",
+                    content: "To draw well: Look carefully at what you want to draw. Start with simple shapes. Use different colors. Don't worry if it's not perfect - practice makes progress!"
+                },
+                {
+                    title: "Creative Expression",
+                    content: "Art lets you express your feelings and imagination. Try creating your own drawings, paintings, or crafts. There's no wrong way to be creative!"
+                },
+                {
+                    title: "Different Art Techniques",
+                    content: "Try watercolor painting, pencil sketching, clay modeling, or collage making. Each gives a different effect."
+                },
+                {
+                    title: "Art History",
+                    content: "Learn about famous artists from around the world. Their work inspires people and shows different ways to express ideas."
+                }
+            ],
+            'Social Studies': [
+                {
+                    title: "Our Country - Kenya",
+                    content: "Kenya is a beautiful country in East Africa. It has diverse cultures, languages, and landscapes. Learn about its history and people."
+                },
+                {
+                    title: "Cities and Towns",
+                    content: "Kenya has many cities like Nairobi (the capital), Mombasa, Kisumu, and Eldoret. Each has its own special features and importance."
+                },
+                {
+                    title: "National Symbols",
+                    content: "Kenya has special symbols like the lion, baobab tree, and the national anthem. These represent our country's identity and heritage."
+                },
+                {
+                    title: "Cultural Diversity",
+                    content: "Kenya has many tribes and languages. This diversity makes our country rich and interesting. Respect others' traditions."
+                },
+                {
+                    title: "Government and Leadership",
+                    content: "Kenya has leaders who make decisions for the country. Learn about democracy, voting, and civic responsibility."
+                }
+            ],
+            'Agriculture': [
+                {
+                    title: "What is Farming?",
+                    content: "Farming is growing crops and raising animals to provide food for people. It's one of the most important ways people make their living."
+                },
+                {
+                    title: "Growing Food",
+                    content: "Farmers grow vegetables, fruits, grains, and other foods. They need to plant seeds, water plants, and take care of them until they're ready to eat."
+                },
+                {
+                    title: "Farm Tools",
+                    content: "Farmers use tools like shovels, hoes, watering cans, and tractors. These help them prepare land, plant seeds, and harvest crops efficiently."
+                },
+                {
+                    title: "Crop Rotation",
+                    content: "Farmers change crops in the same field to keep soil healthy and prevent pests. This method improves yield and reduces disease."
+                },
+                {
+                    title: "Sustainable Practices",
+                    content: "Modern farming includes protecting soil, conserving water, and using fewer chemicals. This protects the environment for future generations."
+                }
+            ]
+        };
+
+        // Exercise questions for Playgroup and Grade 1
+        const exerciseQuestions = {
+            'Math': [
+                {
+                    question: "Count the number of apples (1, 2, 3, 4, 5). How many apples are there?",
+                    options: ["3", "4", "5", "6"],
+                    correct: 2,
+                    explanation: "Count each apple carefully. You'll see there are 5 apples."
+                },
+                {
+                    question: "Add: 2 + 3 = ?",
+                    options: ["4", "5", "6", "7"],
+                    correct: 1,
+                    explanation: "When we put 2 together with 3, we get 5."
+                },
+                {
+                    question: "Subtract: 7 - 4 = ?",
+                    options: ["2", "3", "4", "5"],
+                    correct: 1,
+                    explanation: "When we take away 4 from 7, we have 3 left."
+                },
+                {
+                    question: "Multiply: 3 × 2 = ?",
+                    options: ["5", "6", "7", "8"],
+                    correct: 1,
+                    explanation: "3 groups of 2 make 6 altogether."
+                },
+                {
+                    question: "Divide: 10 ÷ 2 = ?",
+                    options: ["3", "4", "5", "6"],
+                    correct: 2,
+                    explanation: "10 shared equally among 2 groups gives 5 each."
+                }
+            ],
+            'English': [
+                {
+                    question: "Choose the correct spelling: 'cat' or 'ct'?",
+                    options: ["cat", "ct"],
+                    correct: 0,
+                    explanation: "'Cat' is spelled with 'a' and 't'."
+                },
+                {
+                    question: "Which word is a verb? (run, table, book)",
+                    options: ["run", "table", "book"],
+                    correct: 0,
+                    explanation: "'Run' is an action word that describes doing something."
+                },
+                {
+                    question: "Complete the sentence: The bird ___ in the sky.",
+                    options: ["flies", "sits", "walks", "jumps"],
+                    correct: 0,
+                    explanation: "Birds fly in the sky using their wings."
+                },
+                {
+                    question: "Which word is a noun?",
+                    options: ["running", "beautiful", "teacher", "quickly"],
+                    correct: 2,
+                    explanation: "'Teacher' is a person and therefore a noun."
+                },
+                {
+                    question: "What is the past tense of 'jump'?",
+                    options: ["jumped", "jumps", "jumping", "jump"],
+                    correct: 0,
+                    explanation: "Past tense adds '-ed' to regular verbs."
+                }
+            ],
+            'Environmental Science': [
+                {
+                    question: "What do plants need to grow?",
+                    options: ["Water only", "Water and sunlight", "Water, sunlight, and soil", "Just soil"],
+                    correct: 2,
+                    explanation: "Plants need water, sunlight, and soil to grow healthy."
+                },
+                {
+                    question: "Which of these is a mammal?",
+                    options: ["Fish", "Dog", "Bird", "Snake"],
+                    correct: 1,
+                    explanation: "Dogs have fur and give birth to live babies, which makes them mammals."
+                },
+                {
+                    question: "What do we call the process of turning trash into something useful?",
+                    options: ["Recycling", "Burning", "Throwing", "Digging"],
+                    correct: 0,
+                    explanation: "Recycling turns old things into new ones without wasting resources."
+                },
+                {
+                    question: "What is the main source of energy for Earth?",
+                    options: ["Wind", "Sun", "Water", "Coal"],
+                    correct: 1,
+                    explanation: "The sun provides light and heat energy to all life on Earth."
+                },
+                {
+                    question: "Which is a renewable resource?",
+                    options: ["Coal", "Oil", "Solar power", "Natural gas"],
+                    correct: 2,
+                    explanation: "Solar power comes from the sun and can be used continuously."
+                }
+            ],
+            'Art': [
+                {
+                    question: "Which primary color do you get by mixing red and blue?",
+                    options: ["Green", "Yellow", "Purple", "Orange"],
+                    correct: 2,
+                    explanation: "Red and blue mixed together make purple."
+                },
+                {
+                    question: "What tool helps you make straight lines?",
+                    options: ["Brush", "Eraser", "Ruler", "Pencil"],
+                    correct: 2,
+                    explanation: "A ruler helps you draw straight lines with accuracy."
+                },
+                {
+                    question: "Which shape is round?",
+                    options: ["Square", "Triangle", "Circle", "Rectangle"],
+                    correct: 2,
+                    explanation: "A circle is perfectly round with no corners."
+                },
+                {
+                    question: "What is the technique called where you blend colors smoothly?",
+                    options: ["Hatching", "Cross-hatching", "Blending", "Stippling"],
+                    correct: 2,
+                    explanation: "Blending creates smooth transitions between colors."
+                },
+                {
+                    question: "Which of these is a drawing tool?",
+                    options: ["Palette", "Brush", "Eraser", "Canvas"],
+                    correct: 2,
+                    explanation: "An eraser is used to remove pencil marks."
+                }
+            ],
+            'Social Studies': [
+                {
+                    question: "What is the capital city of Kenya?",
+                    options: ["Mombasa", "Nairobi", "Kisumu", "Eldoret"],
+                    correct: 1,
+                    explanation: "Nairobi is the capital city where the government works."
+                },
+                {
+                    question: "Which of these is a national symbol of Kenya?",
+                    options: ["Lion", "Giraffe", "Baobab tree", "Hippopotamus"],
+                    correct: 2,
+                    explanation: "The baobab tree is a special symbol of Kenya."
+                },
+                {
+                    question: "How many counties are there in Kenya?",
+                    options: ["42", "45", "47", "50"],
+                    correct: 2,
+                    explanation: "Kenya currently has 47 counties."
+                },
+                {
+                    question: "What is the official language of Kenya?",
+                    options: ["Swahili only", "English only", "Swahili and English", "French"],
+                    correct: 2,
+                    explanation: "Kenya uses both Swahili and English as official languages."
+                },
+                {
+                    question: "Which is the largest lake in Kenya?",
+                    options: ["Lake Victoria", "Lake Turkana", "Lake Naivasha", "Lake Baringo"],
+                    correct: 0,
+                    explanation: "Lake Victoria is the largest lake in Kenya."
+                }
+            ],
+            'Agriculture': [
+                {
+                    question: "What is the main purpose of farming?",
+                    options: ["To grow food", "To make money", "To sell plants", "All of the above"],
+                    correct: 0,
+                    explanation: "Farmers grow food so people can eat and stay healthy."
+                },
+                {
+                    question: "Which tool is used to plant seeds?",
+                    options: ["Watering can", "Shovel", "Hoe", "All of the above"],
+                    correct: 3,
+                    explanation: "Farmers use different tools for planting, watering, and tending to their crops."
+                },
+                {
+                    question: "Why is it important to plant trees?",
+                    options: ["They provide shade", "They produce oxygen", "They prevent soil erosion", "All of the above"],
+                    correct: 3,
+                    explanation: "Trees are very helpful for our environment and life."
+                },
+                {
+                    question: "What is crop rotation?",
+                    options: ["Growing the same crop in the same field", "Switching crops to maintain soil health", "Planting crops in rows", "Growing crops in greenhouses"],
+                    correct: 1,
+                    explanation: "Crop rotation helps keep soil fertile and reduce diseases."
+                },
+                {
+                    question: "What is composting?",
+                    options: ["Burning organic waste", "Turning organic waste into fertilizer", "Dumping waste in the sea", "Using chemical fertilizers"],
+                    correct: 1,
+                    explanation: "Composting turns kitchen scraps into nutrient-rich soil."
+                }
+            ]
+        };
+
+        // Current state variables
+        let currentGrade = '';
+        let currentSubject = '';
+        let currentTeachingStep = 0;
+        let currentExerciseIndex = 0;
+        let currentQuizIndex = 0;
+        let userAnswers = [];
+
+        // Show/hide pages
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        // Select grade
+        function selectGrade(grade) {
+            currentGrade = grade;
+            showPage('subjects');
+            loadSubjects();
+        }
+
+        // Load subjects for current grade
+        function loadSubjects() {
+            const subjectsGrid = document.getElementById('subjects-grid');
+            subjectsGrid.innerHTML = '';
+            
+            const subjects = subjectsByGrade[currentGrade] || [];
+            
+            subjects.forEach(subject => {
+                const subjectCard = document.createElement('div');
+                subjectCard.className = 'subject-card bg-white rounded-xl p-6 shadow-lg border-2 border-yellow-200 cursor-pointer interactive-btn';
+                subjectCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            ${getSubjectIcon(subject)}
+                        </div>
+                        <h3 class="text-xl font-bold text-blue-900">${subject}</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">${getSubjectDescription(subject)}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-500">Click to start</span>
+                        <i class="fas fa-arrow-right text-blue-500"></i>
+                    </div>
+                `;
+                subjectCard.onclick = () => startSubject(subject);
+                subjectsGrid.appendChild(subjectCard);
+            });
+        }
+
+        // Get subject icon
+        function getSubjectIcon(subject) {
+            switch(subject) {
+                case 'Math':
+                    return '<i class="fas fa-calculator text-3xl text-blue-600"></i>';
+                case 'English':
+                    return '<i class="fas fa-book-open text-3xl text-purple-600"></i>';
+                case 'Environmental Science':
+                    return '<i class="fas fa-leaf text-3xl text-green-600"></i>';
+                case 'Art':
+                    return '<i class="fas fa-paint-brush text-3xl text-pink-600"></i>';
+                case 'Social Studies':
+                    return '<i class="fas fa-globe-americas text-3xl text-orange-600"></i>';
+                case 'Agriculture':
+                    return '<i class="fas fa-seedling text-3xl text-yellow-600"></i>';
+                default:
+                    return '<i class="fas fa-book text-3xl text-gray-600"></i>';
+            }
+        }
+
+        // Get subject description
+        function getSubjectDescription(subject) {
+            switch(subject) {
+                case 'Math':
+                    return 'Number recognition, basic operations, shapes, and patterns';
+                case 'English':
+                    return 'Reading, writing, vocabulary, and grammar basics';
+                case 'Environmental Science':
+                    return 'Environment, nature, conservation, and sustainability';
+                case 'Art':
+                    return 'Drawing, coloring, and creative expression';
+                case 'Social Studies':
+                    return 'Community, culture, and geography concepts';
+                case 'Agriculture':
+                    return 'Growing plants, farming practices, and food production';
+                default:
+                    return 'Subject description';
+            }
+        }
+
+        // Start subject selection
+        function startSubject(subject) {
+            currentSubject = subject;
+            document.getElementById('subject-name').textContent = subject;
+            
+            // Load subject content based on grade and subject
+            let content = '';
+            if (subjectsByGrade[currentGrade].includes(subject)) {
+                content = `
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">${subject} Overview</h3>
+                        <p class="text-gray-700">
+                            ${subject === 'Math' ? 'Learn numbers, counting, addition, and subtraction with fun activities!' : ''}
+                            ${subject === 'English' ? 'Discover letters, words, sentences, and reading skills!' : ''}
+                            ${subject === 'Environmental Science' ? 'Explore nature, animals, plants, and the environment around us!' : ''}
+                            ${subject === 'Art' ? 'Express creativity through drawing, painting, and artistic techniques!' : ''}
+                            ${subject === 'Social Studies' ? 'Learn about our country, people, culture, and community!' : ''}
+                            ${subject === 'Agriculture' ? 'Understand how to grow crops, raise animals, and farm sustainably!' : ''}
+                        </p>
+                    </div>
+                `;
+            } else {
+                content = '<p class="text-gray-700">This subject is not available for your grade level.</p>';
+            }
+            
+            document.getElementById('subject-content').innerHTML = content;
+            showPage('subject-detail-page');
+        }
+
+        // Start teaching
+        function startTeaching() {
+            document.getElementById('teaching-subject').textContent = `${currentSubject} - Teaching`;
+            currentTeachingStep = 0;
+            loadTeachingContent();
+            showPage('teaching-page');
+        }
+
+        // Load teaching content
+        function loadTeachingContent() {
+            const steps = teachingSteps[currentSubject] || [];
+            if (steps.length > 0 && currentTeachingStep < steps.length) {
+                const step = steps[currentTeachingStep];
+                document.getElementById('teaching-content').innerHTML = `
+                    <div class="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-500">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">${step.title}</h3>
+                        <p class="text-gray-700">${step.content}</p>
+                    </div>
+                `;
+                
+                // Update button states
+                document.getElementById('prev-teach-btn').disabled = currentTeachingStep === 0;
+                document.getElementById('next-teach-btn').disabled = currentTeachingStep === steps.length - 1;
+            }
+        }
+
+        // Show teaching step (next/prev)
+        function showTeachingStep(direction) {
+            const steps = teachingSteps[currentSubject] || [];
+            if (direction === 'next' && currentTeachingStep < steps.length - 1) {
+                currentTeachingStep++;
+            } else if (direction === 'prev' && currentTeachingStep > 0) {
+                currentTeachingStep--;
+            }
+            loadTeachingContent();
+        }
+
+        // Start exercises
+        function startExercise() {
+            document.getElementById('exercise-subject').textContent = `${currentSubject} - Practice Exercises`;
+            currentExerciseIndex = 0;
+            loadExerciseContent();
+            showPage('exercise-page');
+        }
+
+        // Load exercise content
+        function loadExerciseContent() {
+            const questions = exerciseQuestions[currentSubject] || [];
+            if (questions.length > 0 && currentExerciseIndex < questions.length) {
+                const question = questions[currentExerciseIndex];
+                let optionsHTML = '';
+                question.options.forEach((option, index) => {
+                    optionsHTML += `
+                        <div class="flex items-center mb-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer interactive-btn">
+                            <input type="radio" name="exercise-option" value="${index}" id="opt-${index}" class="mr-3">
+                            <label for="opt-${index}" class="flex-grow">${option}</label>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('exercise-container').innerHTML = `
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-blue-900 mb-4">Question ${currentExerciseIndex + 1}: ${question.question}</h3>
+                        <div class="space-y-2">
+                            ${optionsHTML}
+                        </div>
+                    </div>
+                `;
+                
+                // Update button states
+                document.getElementById('prev-exercise-btn').disabled = currentExerciseIndex === 0;
+                document.getElementById('next-exercise-btn').disabled = currentExerciseIndex === questions.length - 1;
+            }
+        }
+
+        // Navigate to next exercise
+        function nextExercise() {
+            const questions = exerciseQuestions[currentSubject] || [];
+            if (currentExerciseIndex < questions.length - 1) {
+                currentExerciseIndex++;
+                loadExerciseContent();
+            }
+        }
+
+        // Navigate to previous exercise
+        function previousExercise() {
+            if (currentExerciseIndex > 0) {
+                currentExerciseIndex--;
+                loadExerciseContent();
+            }
+        }
+
+        // Start quiz
+        function startQuiz() {
+            currentQuizIndex = 0;
+            userAnswers = Array(quizData[currentSubject].length).fill(null);
+            document.getElementById('current-subject').textContent = currentSubject;
+            loadQuizQuestion();
+            showPage('quiz-page');
+        }
+
+        // Load quiz question
+        function loadQuizQuestion() {
+            const questions = quizData[currentSubject] || [];
+            if (questions.length > 0 && currentQuizIndex < questions.length) {
+                const question = questions[currentQuizIndex];
+                document.getElementById('question-counter').textContent = `Question ${currentQuizIndex + 1} of ${questions.length}`;
+                
+                let optionsHTML = '';
+                question.options.forEach((option, index) => {
+                    const checked = userAnswers[currentQuizIndex] === index ? 'checked' : '';
+                    optionsHTML += `
+                        <div class="flex items-center mb-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer interactive-btn">
+                            <input type="radio" name="quiz-option" value="${index}" id="q-opt-${index}" ${checked} class="mr-3">
+                            <label for="q-opt-${index}" class="flex-grow">${option}</label>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('question-container').innerHTML = `
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-blue-900 mb-4">Question ${currentQuizIndex + 1}: ${question.question}</h3>
+                        <div class="space-y-2">
+                            ${optionsHTML}
+                        </div>
+                    </div>
+                `;
+                
+                // Update button states
+                document.getElementById('prev-btn').disabled = currentQuizIndex === 0;
+                document.getElementById('next-btn').disabled = currentQuizIndex === questions.length - 1;
+            }
+        }
+
+        // Go to next quiz question
+        function nextQuestion() {
+            const questions = quizData[currentSubject] || [];
+            if (currentQuizIndex < questions.length - 1) {
+                currentQuizIndex++;
+                loadQuizQuestion();
+            }
+        }
+
+        // Go to previous quiz question
+        function previousQuestion() {
+            if (currentQuizIndex > 0) {
+                currentQuizIndex--;
+                loadQuizQuestion();
+            }
+        }
+
+        // Set up event listeners for radio buttons
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'exercise-option') {
+                // Store the selected exercise answer
+                const index = parseInt(e.target.value);
+                // For simplicity, we're just storing the answer
+            }
+            if (e.target.name === 'quiz-option') {
+                // Store the selected quiz answer
+                const index = parseInt(e.target.value);
+                userAnswers[currentQuizIndex] = index;
+            }
+        });
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home-page');
+        });
+    </script>
+ <head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4587376919983229"
+     crossorigin="anonymous"></script></head> 
+
+
+     
+
+
+
